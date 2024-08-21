@@ -9,11 +9,16 @@ import InvoiceItem from "./InvoiceItem";
 import InvoiceModal from "./InvoiceModal";
 import { BiArrowBack } from "react-icons/bi";
 import InputGroup from "react-bootstrap/InputGroup";
-import { useDispatch } from "react-redux";
-import { addInvoice, updateInvoice } from "../redux/invoicesSlice";
+import { useDispatch,useSelector } from "react-redux";
+import { addInvoice, updateInvoice, updateInvoiceItem } from "../redux/invoicesSlice";
+import { addProduct,updateProduct ,selectProductList} from "../redux/productsSlice";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import generateRandomId from "../utils/generateRandomId";
 import { useInvoiceListData } from "../redux/hooks";
+import ProductList from "../pages/ProductList";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+
 
 const InvoiceForm = () => {
   const dispatch = useDispatch();
@@ -26,16 +31,17 @@ const InvoiceForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [copyId, setCopyId] = useState("");
   const { getOneInvoice, listSize } = useInvoiceListData();
+  const productList = useSelector(selectProductList);
   const [formData, setFormData] = useState(
     isEdit
       ? getOneInvoice(params.id)
       : isCopy && params.id
-      ? {
+        ? {
           ...getOneInvoice(params.id),
           id: generateRandomId(),
           invoiceNumber: listSize + 1,
         }
-      : {
+        : {
           id: generateRandomId(),
           currentDate: new Date().toLocaleDateString(),
           invoiceNumber: listSize + 1,
@@ -157,6 +163,8 @@ const InvoiceForm = () => {
   };
 
   const handleAddInvoice = () => {
+    handleAddProduct(formData?.items);
+    console.log("invoice formdata", formData)
     if (isEdit) {
       dispatch(updateInvoice({ id: params.id, updatedInvoice: formData }));
       alert("Invoice updated successfuly 🥳");
@@ -169,6 +177,31 @@ const InvoiceForm = () => {
     }
     navigate("/");
   };
+
+  // const handleAddProduct = (product) => {
+  //   dispatch(addProduct(product));
+  //   console.log("product added", product);
+  // };
+
+
+const handleAddProduct = (product) => {
+
+  const existingProduct = productList.find(
+    (item) => item.itemName === product.itemName
+  );
+  // console.log("existing prod", existingProduct)
+  if (existingProduct) {
+    // console.log("exist after prod", product[0]);
+    dispatch(updateProduct(product[0]));
+
+    dispatch(updateInvoiceItem({itemName: product[0].itemName, updatedProduct: product[0]  }));
+    // console.log("Product updated", product);
+  } else {
+    dispatch(addProduct(product));
+    // console.log("Product added", product);
+  }
+};
+
 
   const handleCopyInvoice = () => {
     const recievedInvoice = getOneInvoice(copyId);
@@ -301,6 +334,9 @@ const InvoiceForm = () => {
                 />
               </Col>
             </Row>
+            <div className="mb-4">
+              <ProductList className="mb-4" />
+            </div>
             <InvoiceItem
               onItemizedItemEdit={onItemizedItemEdit}
               onRowAdd={handleAddEvent}

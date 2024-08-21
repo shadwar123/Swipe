@@ -4,15 +4,25 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { BiTrash } from "react-icons/bi";
 import EditableField from "./EditableField";
+import { addProduct } from "../redux/productsSlice";
+import { useDispatch } from "react-redux";
 
 const InvoiceItem = (props) => {
+  // const dispatch = useDispatch();
   const { onItemizedItemEdit, currency, onRowDel, items, onRowAdd } = props;
+  console.log("invoice item",items)
+
+  // const handleAddProduct = (product) => {
+  //   dispatch(addProduct(product));
+  //   alert("Product added successfully! 🥳");
+  // };
 
   const itemTable = items.map((item) => (
     <ItemRow
       key={item.id}
       item={item}
       onDelEvent={onRowDel}
+      // handleAddProduct={handleAddProduct}
       onItemizedItemEdit={onItemizedItemEdit}
       currency={currency}
     />
@@ -42,6 +52,9 @@ const ItemRow = (props) => {
   const onDelEvent = () => {
     props.onDelEvent(props.item);
   };
+  // const addProduct = () => {
+  //   props.handleAddProduct(props.item);
+  // }
   return (
     <tr>
       <td style={{ width: "100%" }}>
