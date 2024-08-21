@@ -178,18 +178,20 @@ const InvoiceForm = () => {
     navigate("/");
   };
 
-  // const handleAddProduct = (product) => {
-  //   dispatch(addProduct(product));
-  //   console.log("product added", product);
-  // };
 
 
 const handleAddProduct = (product) => {
+  const flattenedProductList = productList.flat();
+  // console.log("existing productList", flattenedProductList)
+  // console.log("existing product.itemName", product[0].itemName)
+  const existingProduct = flattenedProductList.find((item) => {
+    // console.log(`exist Comparing: ${item.itemName} --> ${product[0].itemName}`);
+    return item.itemName === product[0].itemName;
+  });
+  // console.log("existing new prod to add", product)
+  // console.log("existing prod we find", existingProduct)
+  // console.log("existing prod lenght", existingProduct?.length)
 
-  const existingProduct = productList.find(
-    (item) => item.itemName === product.itemName
-  );
-  // console.log("existing prod", existingProduct)
   if (existingProduct) {
     // console.log("exist after prod", product[0]);
     dispatch(updateProduct(product[0]));
@@ -201,7 +203,6 @@ const handleAddProduct = (product) => {
     // console.log("Product added", product);
   }
 };
-
 
   const handleCopyInvoice = () => {
     const recievedInvoice = getOneInvoice(copyId);
