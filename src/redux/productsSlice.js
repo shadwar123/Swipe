@@ -13,14 +13,10 @@ const productsSlice = createSlice({
       );
     },
     updateProduct: (state, action) => {
-      const { itemName } = action.payload;
-      // console.log("prod payload", action.payload);
-      
+      const { itemName } = action.payload;      
       state.forEach(productGroup => {
 
         const index = productGroup.findIndex(product => product.itemName === itemName);
-
-        // console.log("index",index)
         if (index !== -1) {
           productGroup[index] = action.payload;
         }

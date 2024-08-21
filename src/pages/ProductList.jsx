@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useInvoiceListData } from "../redux/hooks";
 import { useDispatch } from "react-redux";
-import EditProductModal from "../components/EditProductModal"; // Assuming you have an EditProductModal component
+import EditProductModal from "../components/EditProductModal"; 
 import { Button, Card, Col, Row, Table, Nav, Tab } from "react-bootstrap";
 import { addProduct, updateProduct } from "../redux/productsSlice";
 import { BiSolidPencil } from "react-icons/bi";
@@ -12,7 +12,6 @@ const ProductList = ({ items }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const isListEmpty = productSize === 0;
-  // console.log("isList", isListEmpty);
 
   const handleEditClick = (productName) => {
     setIsOpen(true);
@@ -58,9 +57,9 @@ const ProductList = ({ items }) => {
                 <td>{index + 1}</td>
                 <td>{item.itemName}</td>
                 <td>{item.itemDescription}</td>
-                <td>{item.itemPrice}</td>
+                <td>${item.itemPrice}</td>
                 <td>{item.itemQuantity}</td>
-                <td>{(item.itemPrice * item.itemQuantity).toFixed(2)}</td>
+                <td>${(item.itemPrice * item.itemQuantity).toFixed(2)}</td>
                 <td>
                   <Button variant="outline-primary" onClick={() => handleEditClick(item?.itemName)}>
                     <div className="d-flex align-items-center justify-content-center gap-2">

@@ -5,7 +5,6 @@ import { selectProductList } from "./productsSlice";
 export const useInvoiceListData = () => {
   const invoiceList = useSelector(selectInvoiceList);
   const productList = useSelector(selectProductList);  
-  // console.log("111productId", productList);
   const getOneInvoice = (receivedId) => {
     return (
       invoiceList.find(

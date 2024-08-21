@@ -16,9 +16,7 @@ const EditProductModal = ({ show, onClose, product, onUpdateProduct }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log("update submit", editedProduct)
     onUpdateProduct(editedProduct);
-    // Dispatch the updateInvoice action
     dispatch(updateInvoiceItem({ itemName: editedProduct.itemName, updatedProduct: editedProduct }));
 
 
@@ -39,7 +37,7 @@ const EditProductModal = ({ show, onClose, product, onUpdateProduct }) => {
               name="itemName"
               value={editedProduct.itemName || ""}
               onChange={handleChange}
-              readOnly // This makes the input field uneditable
+              readOnly 
               required
             />
           </Form.Group>

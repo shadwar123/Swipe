@@ -13,7 +13,6 @@ import ProductList from "./ProductList";
 const InvoiceList = () => {
   const { invoiceList, getOneInvoice } = useInvoiceListData();
   const [activeKey, setActiveKey] = useState("invoiceList");
-  // console.log("invoice", invoiceList)
   const isListEmpty = invoiceList.length === 0;
   const [copyId, setCopyId] = useState("");
   const navigate = useNavigate();
@@ -117,7 +116,6 @@ const InvoiceList = () => {
 const InvoiceRow = ({ invoice, navigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  console.log("invoiceRow", invoice.items);
   const handleDeleteClick = (invoiceId) => {
     dispatch(deleteInvoice(invoiceId));
   };
@@ -141,7 +139,7 @@ const InvoiceRow = ({ invoice, navigate }) => {
       <td className="fw-normal">{invoice.billTo}</td>
       <td className="fw-normal">{invoice.dateOfIssue}</td>
       <td className="fw-normal">
-        {invoice.currency}
+        $
         {invoice.total}
       </td>
       <td style={{ width: "5%" }}>
@@ -171,7 +169,7 @@ const InvoiceRow = ({ invoice, navigate }) => {
         info={{
           isOpen,
           id: invoice.id,
-          currency: invoice.currency,
+          currency: '$',
           currentDate: invoice.currentDate,
           invoiceNumber: invoice.invoiceNumber,
           dateOfIssue: invoice.dateOfIssue,
@@ -190,7 +188,7 @@ const InvoiceRow = ({ invoice, navigate }) => {
           discountAmount: invoice.discountAmount,
         }}
         items={invoice.items}
-        currency={invoice.currency}
+        currency='$'
         subTotal={invoice.subTotal}
         taxAmount={invoice.taxAmount}
         discountAmount={invoice.discountAmount}
